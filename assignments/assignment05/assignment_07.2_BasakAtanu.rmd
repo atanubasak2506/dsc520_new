@@ -1,0 +1,109 @@
+---
+title: "Assignment on Student Survey"
+author: "Basak Atanu"
+date: 04-25-2022
+output:
+  
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+### As a data science intern with newly learned knowledge in skills in statistical correlation and R programming, you will analyze the results of a survey recently given to college students. You learn that the research question being investigated is: “Is there a significant relationship between the amount of time spent reading and the time spent watching television?” You are also interested if there are other significant relationships that can be discovered? The survey data is located in this StudentSurvey.csv file. 
+
+# i) Use R to calculate the covariance of the Survey variables and provide an explanation of why you would use this calculation and what the results indicate.
+```{r, echo=FALSE}
+
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520")
+survey <- read.csv("assignments\\assignment05\\student-survey.csv")
+knitr::kable(survey,
+caption = "Student Survey Data")
+```
+## Correlation between TimeReading and TimeTv
+```{r, echo=FALSE}
+cor(survey$TimeReading, survey$TimeTV)
+```
+
+## The correlation between TV time and Reading Time are negatively correlated, which means the students who watch more TV has less time for their study, which is true because time in a particular day is always fixed.
+
+## Correlation between Happiness and TimeTv
+```{r, echo=FALSE}
+cor(survey$Happiness, survey$TimeTV)
+```
+## The correlation between TV time and Happiness is positively correlated.
+
+
+## Correlation between Happiness and TimeReading
+```{r, echo=FALSE}
+cor(survey$Happiness, survey$TimeReading)
+```
+## The correlation between Studytime and Happiness is negatively correlated. So happiness is less if they study more.
+
+# ii) Examine the Survey data variables. What measurement is being used for the variables? Explain what effect changing the measurement being used for the variables would have on the covariance calculation. Would this be a problem? Explain and provide a better alternative if needed.
+
+## The TimeReading is using hour where as the TimeTV variable is using minutes, Lets change this hr to minute and see the effect on correlation.
+```{r, echo=FALSE}
+survey['TimeRD'] = survey$TimeReading*60
+head(survey)
+```
+## Correlation between TimeReading and TimeTV
+```{r, echo=FALSE}
+cor(survey$TimeReading, survey$TimeTV) 
+```
+## Correlation between TimeRD and TimeTV
+```{r, echo=FALSE}
+cor(survey$TimeRD, survey$TimeTV)
+
+```
+## There is no effect on covariance calculation for the change in measurements.
+
+# iii) Choose the type of correlation test to perform, explain why you chose this test, and make a prediction if the test yields a positive or negative correlation?
+
+#pearson test for correlation
+```{r, echo=FALSE}
+res <- cor.test(survey$TimeRD, survey$TimeTV, method = "pearson")
+res
+```
+##The p-value of the test is 0.0003153, which is less than the significance level alpha = 0.05. We can conclude that time to read and time for TV are significantly correlated.
+
+# iv) Perform a correlation analysis of below
+
+## All variables
+```{r, echo=FALSE}
+res <- cor(survey)
+round(res, 2)
+```
+## A single correlation between two a pair of the variables
+```{r, echo=FALSE}
+cor(survey$TimeReading, survey$TimeTV)
+
+```
+## Repeat your correlation test in step 2 but set the confidence interval at 99%
+```{r, echo=FALSE}
+res <- cor.test(survey$TimeRD, survey$TimeTV, method = "pearson", conf.level = 0.99)
+res
+```
+## Describe what the calculations in the correlation matrix suggest about the relationship between the variables. Be specific with your explanation.
+## The matrix says, there's quite a high correlation between TV time and Reading Time and the value is negative so its inversely related, i.e. higer the tv time means less reading time and vise versa.
+
+# v) Calculate the correlation coefficient and the coefficient of determination, describe what you conclude about the results.
+## coefficient of determination
+```{r, echo=FALSE}
+survey.lm = lm(TimeReading ~ TimeTV, data=survey) 
+summary(survey.lm)$r.squared
+```
+## the R-Squared value ranges between 0 and 1, this means 77.9% of the variation in reading time can be explained by Television wathcing time.
+
+# vi) Based on your analysis can you say that watching more TV caused students to read less? Explain.
+## Yes, there is high negative correlation between the two which explains watching more tv causes students to read less
+
+# vii) Pick three variables and perform a partial correlation, documenting which variable you are “controlling”. Explain how this changes your interpretation and explanation of the results.
+```{r, echo=FALSE}
+survey_new = survey[c('TimeReading','TimeTV','Happiness')]
+head(survey_new)
+library(ppcor)
+pcor(survey_new)
+```
+## Reading time and tv time have partial correlation of -0.8729450 with p-value 0.0009753126, so We can conclude that time to read and time for TV are having significant partial correlated when happiness is controlled 

@@ -1,0 +1,62 @@
+---
+title: "ASSIGNMENT 4"
+author: "Atanu Basak"
+date: '2022-04-19'
+output:
+    word_document: default
+bibliography: bibliography.bib
+---
+
+# Markdown Basics
+
+## Favorite Foods
+
+## Images
+
+## Add a Quote
+
+## Add an Equation
+
+## Add a Footnote
+
+This is a footnote
+
+## Add Citations
+
+* R for Everyone
+* Discovering Statistics Using R
+
+# Inline Code
+
+## NY Times COVID-19 Data
+
+```{r, echo=FALSE}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520")
+covid_df <- read.csv("data\\nytimes\\covid-19-data\\us-states.csv")
+head(covid_df)
+```
+
+## R4DS Height vs Earnings
+```{r, fig.height=3, fig.width=7.5, warning=FALSE, message=FALSE}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520")
+heights_df <- read.csv("data\\r4ds\\heights.csv")
+head(heights_df)
+plot(heights_df$height,heights_df$earn)
+```
+
+# Tables
+
+## Knitr Table with Kable
+
+```{r, echo=FALSE}
+knitr::kable(head(heights_df[, 1:4]), "pipe")
+```
+## Pandoc Table
+
+```{r, echo=FALSE}
+library(pander)
+m<-heights_df[1:4, 1:4]
+pandoc.table(m, keep.line.breaks = TRUE, style='simple')
+```
+# References
+#https://cran.r-project.org/web/packages/pander/readme/README.html

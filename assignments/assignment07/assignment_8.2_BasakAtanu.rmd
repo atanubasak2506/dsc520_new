@@ -1,0 +1,116 @@
+---
+title: "Assignment 8.2 on Housing Price "
+author: "Basak Atanu"
+date: 05-09-2022
+output:
+  
+  word_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, echo=TRUE}
+library("readxl")
+
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520")
+housing <- read_excel("data\\week-6-housing.xlsx")
+housing['years_old'] <- 2022 - housing['year_built']
+housing['sales_price'] <- housing["Sale Price"] 
+```
+
+# Explain any transformations or modifications you made to the dataset
+### I have created the year_old variable using the year_built variable.
+
+# Create two variables; one that will contain the variables Sale Price and Square Foot of Lot (same variables used from previous assignment on simple regression) and one that will contain Sale Price and several additional predictors of your choice. Explain the basis for your additional predictor selections.
+```{r, echo=TRUE}
+sale_price_simple <-  lm(sales_price~sq_ft_lot, data=housing)
+
+sale_price_multiple <-  lm(sales_price ~ bedrooms + year_built + sq_ft_lot  + bath_full_count + bath_half_count + building_grade, data=housing)
+
+```
+# Execute a summary() function on two variables defined in the previous step to compare the model results. What are the R2 and Adjusted R2 statistics? Explain what these results tell you about the overall model. Did the inclusion of the additional predictors help explain any large variations found in Sale Price?
+### Summary of simple regression
+```{r, echo=TRUE}
+summary(sale_price_simple)
+```
+### Summary of multiple regression
+```{r, echo=TRUE}
+summary(sale_price_multiple)
+```
+### The inclusion of other predictor help explain large variations found in sales price thats why R squared has increased when we use multiple variables as predicter. Adjusted R squared is the modified version of R squared that depends on the number of attributes added.
+
+# Considering the parameters of the multiple regression model you have created. What are the standardized betas for each parameter and what do the values indicate?
+```{r, echo=TRUE}
+library(lm.beta)
+lm.beta(sale_price_multiple)
+```
+### its gives the relative effect for the attributes on sales price, looking at the values of standardized beta the building grade has the highest impact on sale value, that also justified becase the houses build of stone and houses build of plastic siding must have completely diffent sales values. To do further analysis lets try to plot the building grade vs sales.
+
+### Plot the sales price against the building grade
+```{r ggplot}
+library(ggplot2)
+ggplot(data = housing, aes(y = sales_price, x = building_grade, color = building_grade)) + geom_point()
+```
+### the pattern on the plot also says the same thing the higher the building grade having higher sale prices.
+
+
+# Calculate the confidence intervals for the parameters in your model and explain what the results indicate.
+```{r, echo=TRUE}
+confint(sale_price_multiple)
+```
+### If the confidence interval for the parameter contains 0, then it can be concluded that there no signifiance evedence of liner relation between predictor and response. Here all are non-zero so the relationship is linear.
+
+# Assess the improvement of the new model compared to your original model (simple regression model) by testing whether this change is significant by performing an analysis of variance.
+### for simple regression r-squared was 0.01435 where as for multiple regression it increased to 0.1902, so adding multiple predictor to the model explains more variability.
+
+# Perform casewise diagnostics to identify outliers and/or influential cases, storing each function's output in a dataframe assigned to a unique variable name.
+```{r}
+plot(sale_price_multiple)
+```
+### This plot is used to identify influential observations. If any points in this plot fall outside of Cook’s distance (the dashed lines) then it is an influential observation. the observation are obs 4649, 8377 and 295 there are the influential observation for the model.
+### Normal Q-Q plot is used to determine if residuals are normally distributed.
+### Residuals vs Fitted plotf is used to determine if the residuals exhibit non-linear patterns. If the red line across the center of the plot is roughly horizontal then we can assume that the residuals follow a linear pattern.
+
+# Calculate the standardized residuals using the appropriate command, specifying those that are +-2, storing the results of large residuals in a variable you create.
+
+```{r}
+library(dplyr)
+standard_res <- rstandard(sale_price_multiple)
+data_with_res <- cbind(housing, standard_res)
+
+data_with_res_ = data_with_res[,c('sales_price','bedrooms','year_built','sq_ft_lot','bath_full_count','bath_half_count','building_grade','standard_res')]
+data_with_res_2 = data_with_res_  %>% filter(between(abs(standard_res),2,3))
+```
+# Use the appropriate function to show the sum of large residuals.
+```{r}
+ sum( data_with_res_2[,c('standard_res')])
+```
+# Investigate further by calculating the leverage, cooks distance, and covariance rations. Comment on all cases that are problematics.
+
+```{r}
+x <- influence.measures(sale_price_multiple)
+```
+# Perform the necessary calculations to assess the assumption of independence and state if the condition is met or not.
+```{r}
+par(mfrow = c(2, 2))
+plot(sale_price_multiple)
+```
+### as per the residual vs fitted plot it looks like assumption of independence has met.
+
+# Perform the necessary calculations to assess the assumption of no multicollinearity and state if the condition is met or not.
+```{r}
+library(car)
+car::vif(sale_price_multiple)
+```
+### as per the VIF values its not close to 10 so there are not high so there is no multicolinearity in the model.
+
+# Visually check the assumptions related to the residuals using the plot() and hist() functions. Summarize what each graph is informing you of and if any anomalies are present.
+
+```{r}
+par(mfrow = c(2, 2))
+plot(sale_price_multiple)
+```
+### as residual-fitted is liner so we can say linearity holds prety good.
+### Normal Q-Q plot is used to determine if residuals are normally distributed.
+### scale-location plot is not hoizontal so there is some non-linearity found.
+

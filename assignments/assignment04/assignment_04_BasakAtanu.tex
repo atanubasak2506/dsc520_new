@@ -1,0 +1,145 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={ASSIGNMENT 4},
+  pdfauthor={Atanu Basak},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{ASSIGNMENT 4}
+\author{Atanu Basak}
+\date{2022-04-19}
+
+\begin{document}
+\maketitle
+
+\hypertarget{markdown-basics}{%
+\section{Markdown Basics}\label{markdown-basics}}
+
+\hypertarget{favorite-foods}{%
+\subsection{Favorite Foods}\label{favorite-foods}}
+
+\hypertarget{images}{%
+\subsection{Images}\label{images}}
+
+\hypertarget{add-a-quote}{%
+\subsection{Add a Quote}\label{add-a-quote}}
+
+\hypertarget{add-an-equation}{%
+\subsection{Add an Equation}\label{add-an-equation}}
+
+\hypertarget{add-a-footnote}{%
+\subsection{Add a Footnote}\label{add-a-footnote}}
+
+This is a footnote
+
+\hypertarget{add-citations}{%
+\subsection{Add Citations}\label{add-citations}}
+
+\begin{itemize}
+\tightlist
+\item
+  R for Everyone
+\item
+  Discovering Statistics Using R
+\end{itemize}
+
+\hypertarget{inline-code}{%
+\section{Inline Code}\label{inline-code}}
+
+\hypertarget{ny-times-covid-19-data}{%
+\subsection{NY Times COVID-19 Data}\label{ny-times-covid-19-data}}
+
+\begin{verbatim}
+##         date      state fips cases deaths
+## 1 2020-01-21 Washington   53     1      0
+## 2 2020-01-22 Washington   53     1      0
+## 3 2020-01-23 Washington   53     1      0
+## 4 2020-01-24   Illinois   17     1      0
+## 5 2020-01-24 Washington   53     1      0
+## 6 2020-01-25 California    6     1      0
+\end{verbatim}
+
+\hypertarget{r4ds-height-vs-earnings}{%
+\subsection{R4DS Height vs Earnings}\label{r4ds-height-vs-earnings}}
+
+\begin{verbatim}
+##    earn   height    sex ed age  race
+## 1 50000 74.42444   male 16  45 white
+## 2 60000 65.53754 female 16  58 white
+## 3 30000 63.62920 female 16  29 white
+## 4 50000 63.10856 female 16  91 other
+## 5 51000 63.40248 female 17  39 white
+## 6  9000 64.39951 female 15  26 white
+\end{verbatim}
+
+\hypertarget{tables}{%
+\section{Tables}\label{tables}}
+
+\hypertarget{knitr-table-with-kable}{%
+\subsection{Knitr Table with Kable}\label{knitr-table-with-kable}}
+
+\hypertarget{pandoc-table}{%
+\subsection{Pandoc Table}\label{pandoc-table}}
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\end{document}
