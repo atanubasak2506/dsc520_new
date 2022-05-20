@@ -4,7 +4,7 @@ author: "Basak Atanu"
 date: 05-09-2022
 output:
   
-  word_document: default
+  pdf_document: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -64,9 +64,10 @@ confint(sale_price_multiple)
 ### for simple regression r-squared was 0.01435 where as for multiple regression it increased to 0.1902, so adding multiple predictor to the model explains more variability.
 
 # Perform casewise diagnostics to identify outliers and/or influential cases, storing each function's output in a dataframe assigned to a unique variable name.
-```{r}
+```{r, echo=TRUE}
 plot(sale_price_multiple)
 ```
+
 ### This plot is used to identify influential observations. If any points in this plot fall outside of Cook’s distance (the dashed lines) then it is an influential observation. the observation are obs 4649, 8377 and 295 there are the influential observation for the model.
 ### Normal Q-Q plot is used to determine if residuals are normally distributed.
 ### Residuals vs Fitted plotf is used to determine if the residuals exhibit non-linear patterns. If the red line across the center of the plot is roughly horizontal then we can assume that the residuals follow a linear pattern.
@@ -106,10 +107,11 @@ car::vif(sale_price_multiple)
 
 # Visually check the assumptions related to the residuals using the plot() and hist() functions. Summarize what each graph is informing you of and if any anomalies are present.
 
-```{r}
+```{r, echo=TRUE}
 par(mfrow = c(2, 2))
 plot(sale_price_multiple)
 ```
+
 ### as residual-fitted is liner so we can say linearity holds prety good.
 ### Normal Q-Q plot is used to determine if residuals are normally distributed.
 ### scale-location plot is not hoizontal so there is some non-linearity found.
