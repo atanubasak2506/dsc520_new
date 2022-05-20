@@ -4,7 +4,7 @@ author: "Basak Atanu"
 date: 05-17-2022
 output:
   
-  word_document: default
+  pdf_document: default
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -16,25 +16,18 @@ setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\
 thoraric <- read.arff("data\\ThoraricSurgery.arff")
 #head(thoraric)
 ```
-### lets split the data into 80-20 ratio for testing.
-```{r}
-library(caTools)
-split <- sample.split(thoraric, SplitRatio = 0.8)
-split
-train <- subset(thoraric, split=='TRUE')
-test <- subset(thoraric, split=='FALSE')
-```
-### lets factorize the categorical data.
+
+### lets fit the logistic regression model.
 ```{r}
 model <- glm(Risk1Yr ~ DGN + PRE4 + PRE5 + PRE6 + PRE7 + + PRE8 + PRE9 + PRE10 + PRE11 + 
-               PRE14 + PRE17 + PRE19 + PRE25 + PRE30 + PRE32 + AGE, data=train, family='binomial')
+               PRE14 + PRE17 + PRE19 + PRE25 + PRE30 + PRE32 + AGE, data=thoraric, family='binomial')
 summary(model)
 ```
-### according to the summary, PRE9 (Dyspnoea before surgery), PRE14: T in clinical TNM - size of the original tumour with OC13 and OC14 which means large size of tumour have greater affect on servical rate.
+### according to the summary, PRE9 (Dyspnoea before surgery), PRE14: T in clinical TNM - size of the original tumour with OC14 which means large size of tumour have greater affect on servical rate.
 
 ```{r}
-res <- predict(model, train, type='response')
-confmatrix <- table(actual_value=train$Risk1Yr, predicted_value = res>0.5)
+res <- predict(model, thoraric, type='response')
+confmatrix <- table(actual_value=thoraric$Risk1Yr, predicted_value = res>0.5)
 ```
 ### Accuracy
 ```{r}
