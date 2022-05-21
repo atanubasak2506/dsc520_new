@@ -3,12 +3,12 @@
 # Date: 2022-05-03
 
 ## Set the working directory to the root of your DSC 520 directory
-setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520")
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520_")
 
 
 ## Load the `data/r4ds/heights.csv` to
 heights_df <- read.csv("data\\r4ds\\heights.csv")
-head(heights_df)
+#head(heights_df)
 # Fit a linear model
 earn_lm <-  lm(earn ~ height + sex + ed + age + race, data=heights_df)
 
@@ -16,11 +16,11 @@ earn_lm <-  lm(earn ~ height + sex + ed + age + race, data=heights_df)
 summary(earn_lm)
 age_predict_df <- heights_df[,c('age','ed','race','height','sex')]
 
-head(newdata)
+head(age_predict_df)
 predicted_df <- data.frame(
-  earn = predict(earn_lm, newdata),
-  ed=newdata$ed, race=newdata$race, height=newdata$height,
-  age=newdata$age, sex=newdata$sex
+  earn = predict(earn_lm, age_predict_df),
+  ed=age_predict_df$ed, race=age_predict_df$race, height=age_predict_df$height,
+  age=age_predict_df$age, sex=age_predict_df$sex
   )
 head(predicted_df)
 
@@ -39,7 +39,7 @@ ssm <- sum((mean_earn - predicted_df$earn)^2)
 ssm
 ## Residuals
 residuals <- earn_lm$residuals
-residuals
+#residuals
 ## Sum of Squares for Error
 sse <- sum((fitted(earn_lm) - heights_df$earn)^2)
 sse

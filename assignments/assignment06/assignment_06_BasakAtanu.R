@@ -1,5 +1,5 @@
 # Assignment: ASSIGNMENT 6
-# Name: Lastname, Firstname
+# Name: Basak, Atanu
 # Date: 2022-05-02
 
 ## Set the working directory to the root of your DSC 520 directory
@@ -22,7 +22,7 @@ summary(heights_df)
 ## Creating predictions using `predict()`
 
 age_predict_df <- data.frame(earn = predict(age_lm, data.frame(age=heights_df$age)), age=heights_df$age)
-head(age_predict_df)
+#head(age_predict_df)
 
 
 ## Plot the predictions against the original data
@@ -37,7 +37,7 @@ sst <- sum((mean_earn - heights_df$earn)^2)
 ssm <- sum((mean_earn - age_predict_df$earn)^2)
 ## Residuals
 residuals <- heights_df$earn - age_predict_df$earn
-residuals
+#residuals
 ## Sum of Squares for Error
 sse <- sum(residuals^2)
 ## R Squared R^2 = SSM\SST
