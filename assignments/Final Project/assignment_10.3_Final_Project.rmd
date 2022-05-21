@@ -1,0 +1,28 @@
+---
+title: "Assignment 10.3 Step 2 of Final Project"
+author: "Basak Atanu"
+date: 05-19-2022
+output:
+  
+  pdf_document: default
+---
+
+# Data Preparation for Exploratory Data Analysis
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+default_fin <- read.csv("Default_Fin.csv")
+head(default_fin)
+```
+### This data is related to defaulters, this gives individual's information like if the applicant is employed or not, their bank balance annual salary and if the application defaulted.
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+loan_data <- read.csv("loan_data.csv")
+summary(loan_data)
+```
+### This dataset gives the loan details like the interest rate, fico of the customer, type of the loan, annual income along with fully paid or not flag.
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+application_data <- read.csv("application_data.csv")
+summary(application_data)
+```
+### This data set is about loan application where Target field having 1 means the applicant have difficulty while paying for the loan and also have more than x day late payment.

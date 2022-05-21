@@ -4,7 +4,7 @@ author: "Basak Atanu"
 date: 05-14-2022
 output:
   
-  word_document: default
+  pdf_document: default
 ---
 
 # Introduction
@@ -14,7 +14,7 @@ output:
 # Research questions
 
 ### 1. What attributes affect loan default and what are some major reasons behind it?
-### 2. Is there any co-realation between different attributes of loan default data and gereral load data?
+### 2. Is there any co-realation between different attributes of loan default data and gereral loan data?
 ### 3. I think, Income having a direct effect on loan default, because low income could cause default for loan payment. is it true?
 ### 4. Can I predict if the loan will go to default if I have employment, annual salary and bank balance information?
 ### 5. Does high fico socre give lower interest retes for loan?.
