@@ -33,3 +33,44 @@ application_data <- read.csv("application_data.csv")
 ## 3. I think, Income having a direct effect on loan default, because low income could cause default for loan payment. is it true?
 ## 4. Can I predict if the loan will go to default if I have employment, annual salary and bank balance information?
 ## 5. Does high fico socre give lower interest retes for loan?.
+
+```{r}
+library(naniar)
+miss_var_summary(default_fin)
+miss_var_summary(loan_data)
+miss_var_summary(application_data)
+```
+### application_data have sereral missing values so lets eleminate those columns which have more than 10% missing values.
+```{r}
+application_data <- application_data[ lapply( application_data, 
+                                              function(x) sum(is.na(x)) / length(x) ) < 0.1 ]
+miss_var_summary(application_data)
+```
+### lets eleminate the records that have missing values using the below command.
+
+```{r}
+library(tidyr)
+application_data <- na.omit(application_data)
+miss_var_summary(application_data)
+```
+### as missing data has been removed from the dataframe we can start analysis. I am using the corrplot to see the correlation matrix. 
+
+```{r}
+library(corrplot)
+corrplot(cor(default_fin, method = c("spearman")))
+```
+### Looking at the correlation color matrix we can say that defaulters are highly correlated with bank balance.
+```{r}
+library(corrplot)
+corrplot(cor(loan_data[c('credit.policy','int.rate','installment','log.annual.inc','dti','fico','not.fully.paid','pub.rec')], method = c("spearman")))
+```
+### From the correlation matrix above there represents the correlation visually, shows not of the attributes have affect on not.fully.paid i.e. defualter.
+```{r}
+library(corrplot)
+corrplot(cor(application_data[c('AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY','AMT_GOODS_PRICE','DAYS_BIRTH','DAYS_EMPLOYED','TARGET')], method = c("spearman")))
+```
+### none of the attributes selected have direct affect on Target fields.
+
+### For further steps I will analyze income and loan defaulter to some insight.
+### Also I am planning to fit a logistic regression model on defaulter as dependent variable and employment, annual salary and bank-balance as independent variables.
+### I will also do some further analysis on fico and interest rate.
