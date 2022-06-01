@@ -1,0 +1,256 @@
+---
+title: "Assignment 11.2 Assignment on Machine Learning"
+author: "Basak Atanu"
+date: 05-27-2022
+output:
+  
+  pdf_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# ---------------------------------------------
+# BINARY CLASSIFIER DATA.
+# ---------------------------------------------
+```{r, echo=TRUE}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520_")
+binary_data <- read.csv("data\\binary-classifier-data.csv")
+head(binary_data)
+```
+### Let split the data for training and test to see how fitted model work in test.
+
+```{r}
+library(caTools)
+library(class)
+split <- sample.split(binary_data, SplitRatio = 0.7)
+train_binary_data <- subset(binary_data, split == "TRUE")
+test_binary_data <- subset(binary_data, split == "FALSE")
+
+```
+### Lets plot the scatter diagram of the data.
+```{r}
+library(ggplot2)
+library(hrbrthemes)
+ggplot(binary_data, aes(x=x, y=y, color=label)) + geom_point(size=6) + scale_colour_gradientn(colours=rainbow(4))
+```
+### Lets fit the KNN for different K value and callculate the corresponding accuracy.
+## K=3
+```{r}
+classifier_knn_3 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 3)
+
+cm <- table(test_binary_data$label, classifier_knn_3)
+cm
+misClassError <- mean(classifier_knn_3 != test_binary_data$label)
+accuracy_3 = 1-misClassError
+print(paste('Accuracy =', accuracy_3))
+```
+## K=5
+```{r}
+classifier_knn_5 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 5)
+
+cm <- table(test_binary_data$label, classifier_knn_5)
+cm
+misClassError <- mean(classifier_knn_5 != test_binary_data$label)
+accuracy_5 = 1-misClassError
+print(paste('Accuracy =', accuracy_5))
+```
+
+## K=10
+```{r}
+classifier_knn_10 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 10)
+
+cm <- table(test_binary_data$label, classifier_knn_10)
+cm
+misClassError <- mean(classifier_knn_10 != test_binary_data$label)
+accuracy_10 = 1-misClassError
+print(paste('Accuracy =', accuracy_10))
+```
+## K=15
+```{r}
+classifier_knn_15 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 15)
+
+cm <- table(test_binary_data$label, classifier_knn_15)
+cm
+misClassError <- mean(classifier_knn_15 != test_binary_data$label)
+accuracy_15 = 1-misClassError
+print(paste('Accuracy =', accuracy_15))
+```
+
+## K=20
+```{r}
+classifier_knn_20 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 20)
+
+
+cm <- table(test_binary_data$label, classifier_knn_20)
+cm
+misClassError <- mean(classifier_knn_20 != test_binary_data$label)
+accuracy_20 = 1-misClassError
+print(paste('Accuracy =', accuracy_20))
+```
+
+## K=25
+```{r}
+classifier_knn_25 <- knn(train = train_binary_data,test = test_binary_data,cl = train_binary_data$label,k = 25)
+
+cm <- table(test_binary_data$label, classifier_knn_25)
+cm
+misClassError <- mean(classifier_knn_25 != test_binary_data$label)
+accuracy_25 = 1-misClassError
+print(paste('Accuracy =', accuracy_25))
+```
+### Plot for accuray for different K value.
+```{r}
+k <- c(3,5,10,15,20,25)
+accuracy <- c(accuracy_3,accuracy_5,accuracy_10, accuracy_15, accuracy_20, accuracy_25)
+accuracy_by_k <- data.frame(k,accuracy)
+plot(accuracy_by_k,type="l",ylab="Accuracy",
+ xlab="K",main="Accuracy vs K")
+```
+## As per the plot we can say that K= 5 is giving the optimal accuracy for different k values.
+# ---------------------------------------------
+# TRINARY CLASSIFIER DATA.
+# ---------------------------------------------
+```{r, echo=TRUE}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520_")
+trinary_data <- read.csv("data\\trinary-classifier-data.csv")
+head(trinary_data)
+```
+### Let split the data for training and test to see how fitted model work in test.
+
+```{r}
+library(caTools)
+library(class)
+split <- sample.split(trinary_data, SplitRatio = 0.7)
+train_trinary_data <- subset(trinary_data, split == "TRUE")
+test_trinary_data <- subset(trinary_data, split == "FALSE")
+
+```
+### Lets plot the scatter diagram of the data.
+```{r}
+library(ggplot2)
+library(hrbrthemes)
+ggplot(trinary_data, aes(x=x, y=y, color=label)) + geom_point(size=2) + scale_colour_gradientn(colours=rainbow(4))
+```
+### Lets fit the KNN for different K value and callculate the corresponding accuracy.
+## K=3
+```{r}
+classifier_knn_3 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 3)
+
+cm <- table(test_trinary_data$label, classifier_knn_3)
+cm
+misClassError <- mean(classifier_knn_3 != test_trinary_data$label)
+accuracy_3 = 1-misClassError
+print(paste('Accuracy =', accuracy_3))
+```
+## K=5
+```{r}
+classifier_knn_5 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 5)
+
+cm <- table(test_trinary_data$label, classifier_knn_5)
+cm
+misClassError <- mean(classifier_knn_5 != test_trinary_data$label)
+accuracy_5 = 1-misClassError
+print(paste('Accuracy =', accuracy_5))
+```
+
+## K=10
+```{r}
+classifier_knn_10 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 10)
+
+cm <- table(test_trinary_data$label, classifier_knn_10)
+cm
+misClassError <- mean(classifier_knn_10 != test_trinary_data$label)
+accuracy_10 = 1-misClassError
+print(paste('Accuracy =', accuracy_10))
+```
+## K=15
+```{r}
+classifier_knn_15 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 15)
+
+cm <- table(test_trinary_data$label, classifier_knn_15)
+cm
+misClassError <- mean(classifier_knn_15 != test_trinary_data$label)
+accuracy_15 = 1-misClassError
+print(paste('Accuracy =', accuracy_15))
+```
+
+## K=20
+```{r}
+classifier_knn_20 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 20)
+
+
+cm <- table(test_trinary_data$label, classifier_knn_20)
+cm
+misClassError <- mean(classifier_knn_20 != test_trinary_data$label)
+accuracy_20 = 1-misClassError
+print(paste('Accuracy =', accuracy_20))
+```
+
+## K=25
+```{r}
+classifier_knn_25 <- knn(train = train_trinary_data,test = test_trinary_data,cl = train_trinary_data$label,k = 25)
+
+cm <- table(test_trinary_data$label, classifier_knn_25)
+cm
+misClassError <- mean(classifier_knn_25 != test_trinary_data$label)
+accuracy_25 = 1-misClassError
+print(paste('Accuracy =', accuracy_25))
+```
+### Plot for accuray for different K value.
+```{r}
+k <- c(3,5,10,15,20,25)
+accuracy <- c(accuracy_3,accuracy_5,accuracy_10, accuracy_15, accuracy_20, accuracy_25)
+accuracy_by_k <- data.frame(k,accuracy)
+plot(accuracy_by_k,type="l",ylab="Accuracy",
+ xlab="K",main="Accuracy vs K")
+```
+## As per the plot we can say that K= 3 is giving the optimal accuracy for different k values.
+
+
+
+# CLUSTERING DATA.
+```{r, echo=TRUE}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Repository\\dsc520_")
+clustering_data <- read.csv("data\\clustering-data.csv")
+head(clustering_data)
+```
+
+### Lets see the scatter plot of the data.
+```{r}
+ggplot(clustering_data, aes(x = x, y = y)) + geom_point()
+```
+### Fitting K Means for K= 2 to K=12
+```{r}
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering algorithms & visualization
+k2 <- kmeans(clustering_data, centers = 2, nstart = 25)
+fviz_cluster(k2, data = clustering_data)
+k3 <- kmeans(clustering_data, centers = 3, nstart = 25)
+fviz_cluster(k3, data = clustering_data)
+k4 <- kmeans(clustering_data, centers = 4, nstart = 25)
+fviz_cluster(k4, data = clustering_data)
+k5 <- kmeans(clustering_data, centers = 5, nstart = 25)
+fviz_cluster(k5, data = clustering_data)
+k6 <- kmeans(clustering_data, centers = 6, nstart = 25)
+fviz_cluster(k6, data = clustering_data)
+k7 <- kmeans(clustering_data, centers = 7, nstart = 25)
+fviz_cluster(k7, data = clustering_data)
+k8 <- kmeans(clustering_data, centers = 8, nstart = 25)
+fviz_cluster(k8, data = clustering_data)
+k9 <- kmeans(clustering_data, centers = 9, nstart = 25)
+fviz_cluster(k9, data = clustering_data)
+k10 <- kmeans(clustering_data, centers = 10, nstart = 25)
+fviz_cluster(k10, data = clustering_data)
+k11 <- kmeans(clustering_data, centers = 11, nstart = 25)
+fviz_cluster(k11, data = clustering_data)
+k12 <- kmeans(clustering_data, centers = 12, nstart = 25)
+fviz_cluster(k12, data = clustering_data)
+```
+
+### Lets plot the values of wss (with sum of squares) along with the k and find the elbow to get the optimal K value
+```{r}
+fviz_nbclust(clustering_data, kmeans, method = "wss") +
+  geom_vline(xintercept = 4, linetype = 2) + # add line for better visualisation
+  labs(subtitle = "Elbow method") # add subtitle
+```
+### The elbow value in 4 in this case.
