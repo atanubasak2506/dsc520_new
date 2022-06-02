@@ -1,0 +1,102 @@
+---
+title: "Assignment 10.3 Step 2 of Final Project"
+author: "Basak Atanu"
+date: 05-19-2022
+output:
+  
+  pdf_document: default
+---
+
+# Data Preparation for Exploratory Data Analysis
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+default_fin <- read.csv("Default_Fin.csv")
+head(default_fin)
+```
+### This data is related to defaulters, this gives individual's information like if the applicant is employed or not, their bank balance annual salary and if the application defaulted.
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+loan_data <- read.csv("loan_data.csv")
+summary(loan_data)
+```
+### This dataset gives the loan details like the interest rate, fico of the customer, type of the loan, annual income along with fully paid or not flag.
+```{r}
+setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
+application_data <- read.csv("application_data.csv")
+
+```
+### This data set is about loan application where Target field having 1 means the applicant have difficulty while paying for the loan and also have more than x day late payment.
+
+### Below are the list of Questions, that we are planning to answer using this data.
+## 1. What attributes affect loan default and what are some major reasons behind it?
+## 2. Is there any co-realation between different attributes of loan default data and gereral loan data?
+## 3. I think, Income having a direct effect on loan default, because low income could cause default for loan payment. is it true?
+## 4. Can I predict if the loan will go to default if I have employment, annual salary and bank balance information?
+## 5. Does high fico socre give lower interest retes for loan?.
+
+```{r}
+library(naniar)
+miss_var_summary(default_fin)
+miss_var_summary(loan_data)
+miss_var_summary(application_data)
+```
+### application_data have sereral missing values so lets eleminate those columns which have more than 10% missing values.
+```{r}
+application_data <- application_data[ lapply( application_data, 
+                                              function(x) sum(is.na(x)) / length(x) ) < 0.1 ]
+miss_var_summary(application_data)
+```
+### lets eleminate the records that have missing values using the below command.
+
+```{r}
+library(tidyr)
+application_data <- na.omit(application_data)
+miss_var_summary(application_data)
+```
+### as missing data has been removed from the dataframe we can start analysis. I am using the corrplot to see the correlation matrix. 
+
+```{r}
+library(corrplot)
+corrplot(cor(default_fin, method = c("spearman")))
+```
+### Looking at the correlation color matrix we can say that defaulters are highly correlated with bank balance.
+```{r}
+library(corrplot)
+corrplot(cor(loan_data[c('credit.policy','int.rate','installment','log.annual.inc','dti','fico','not.fully.paid','pub.rec')], method = c("spearman")))
+```
+### From the correlation matrix above there represents the correlation visually, shows not of the attributes have affect on not.fully.paid i.e. defualter.
+```{r}
+library(corrplot)
+corrplot(cor(application_data[c('AMT_INCOME_TOTAL','AMT_CREDIT','AMT_ANNUITY','AMT_GOODS_PRICE','DAYS_BIRTH','DAYS_EMPLOYED','TARGET')], method = c("spearman")))
+```
+### none of the attributes selected have direct affect on Target fields.
+
+
+### Is there any relationship there between Income and loan defaulter?
+
+### Lets plot the bar diagram of defaulter vs annual salary.
+```{r}
+library(ggplot2)
+default_fin$Defaulted <- factor(default_fin$Defaulted., levels=c(0,1), labels=c("Non-Defaulter","Defaulter"))
+loan_data$Defaulted <- factor(loan_data$not.fully.paid, levels=c(0,1), labels=c("Non-Defaulter","Defaulter"))
+
+ggplot(default_fin, aes(x=Defaulted , y=Annual.Salary)) + geom_bar(stat="identity", width=0.5)
+ggplot(default_fin, aes(x=Defaulted , y=Annual.Salary)) + geom_boxplot() + labs(title = "Salary distribution by Defaulters")
+ggplot(loan_data, aes(x=Defaulted , y=log.annual.inc)) + geom_boxplot() + labs(title = "Income distribution by Defaulters")
+
+```
+### The bar chart and box plot clearly says that, the median annual salary for defaulters and non-defaulter around the same range, so its very hard to say if Annaul Salary have effect on being defaulter.
+
+### Lets fit a logistic regression model on defaulter as dependent variable and employment, annual salary and bank-balance as independent variables.
+
+```{r}
+model <- glm(Defaulted. ~ Employed + Annual.Salary + Bank.Balance, data=default_fin, family='binomial')
+summary(model)
+```
+### From the summary of the model, we can see that Bank Balance have significant effect on being defaulter. Also if loan holder has employment or not have some effect on being defaulter, its also quite justified if someone loose the employment its highly likely that loan holder will become a defaulter due of unable to pay the payments, if they dont have enough bank balance. Its also saying the same thing that Annual Salary does not have significant effect on being a defaulter.
+
+### Lets see how fico and interest rate are related.
+```{r}
+ggplot(loan_data, aes(x=fico, y=int.rate)) + geom_point()
+```
+### As per the scatter plot, we can see if fico is high then  interest rate is low. So to get lower interest rate someone need to have high fico score.
