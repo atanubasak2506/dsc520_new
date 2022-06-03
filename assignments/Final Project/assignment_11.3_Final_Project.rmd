@@ -7,7 +7,10 @@ output:
   pdf_document: default
 ---
 
-# Data Preparation for Exploratory Data Analysis
+# Introduction
+## Loan is major part of finansial service, where we borrow money from bank and pay it back over the time with monthly or queartly payments. If we cannot pay the money in time, then we are considered as defaulter, I have collected 3 sources of bank data from Kaggle so understand and analize different questions on defaulter.
+
+# Data Sources and Problem Statement.
 ```{r}
 setwd("C:\\Users\\atanu\\Documents\\BellevueUniversity_MSDS\\DSC520\\Loan Defaulter Data")
 default_fin <- read.csv("Default_Fin.csv")
@@ -33,6 +36,8 @@ application_data <- read.csv("application_data.csv")
 ## 3. I think, Income having a direct effect on loan default, because low income could cause default for loan payment. is it true?
 ## 4. Can I predict if the loan will go to default if I have employment, annual salary and bank balance information?
 ## 5. Does high fico socre give lower interest retes for loan?.
+
+# Analysis and Implications
 
 ```{r}
 library(naniar)
@@ -100,3 +105,11 @@ summary(model)
 ggplot(loan_data, aes(x=fico, y=int.rate)) + geom_point()
 ```
 ### As per the scatter plot, we can see if fico is high then  interest rate is low. So to get lower interest rate someone need to have high fico score.
+
+# Limitations
+
+### The major limitation for this analysis is data, as we all know defaulter information is very sensitive information, using which we can find someone's economical status, so we cannot use personal identifiable information for this analysis, there are several fields like FICO are quite important and plays important rule for this type of analysis, but we cannot tag PII with that.
+
+# Remarks
+
+### Though there are some limitations but the 3 data set used from Kaggle are quite good to do analysis and get an overall idea on defaulters. Which this analysis we came to know the how defaulting on loan effected by some of the major attributes, how fico impact on the loan interest rates and how attributes are correlated on loan data.
